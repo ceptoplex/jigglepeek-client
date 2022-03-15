@@ -1,0 +1,12 @@
+# Default behavior:
+* text=auto
+
+# Force shell scripts to either use LF or CRLF line endings:
+*.in text eol=lf
+*.sh text eol=lf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# JS/HTML-specific settings:
+*.js text=auto diff=js
+*.html text=auto diff=html

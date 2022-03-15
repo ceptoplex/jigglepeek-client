@@ -1,0 +1,3 @@
+appId: com.jigglepeek.client
+publish:
+  provider: github
