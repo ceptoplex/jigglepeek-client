@@ -9,6 +9,7 @@ const createWindow = () => {
     const window = new BrowserWindow({
         width: 800,
         height: 600,
+        show: false,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
@@ -16,16 +17,23 @@ const createWindow = () => {
     });
 
     window.once('ready-to-show', () => {
+        window.show();
+
+        autoUpdater.on('update-available', () => {
+            window.webContents.send('update_available');
+        });
+        autoUpdater.on('update-downloaded', () => {
+            ipcMain.on('restart_app', () => {
+                autoUpdater.quitAndInstall();
+            });
+
+            window.webContents.send('update_downloaded');
+        });
         autoUpdater.checkForUpdatesAndNotify();
     });
-    autoUpdater.on('update-available', () => {
-        window.webContents.send('update_available');
-    });
-    autoUpdater.on('update-downloaded', () => {
-        window.webContents.send('update_downloaded');
-    });
-    ipcMain.on('restart_app', () => {
-        autoUpdater.quitAndInstall();
+
+    ipcMain.on('app_version', (event) => {
+        event.sender.send('app_version', {version: app.getVersion()});
     });
 
     window.loadFile('index.html');
@@ -43,8 +51,4 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
     }
-});
-
-ipcMain.on('app_version', (event) => {
-    event.sender.send('app_version', {version: app.getVersion()});
 });
