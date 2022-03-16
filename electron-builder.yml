@@ -1,3 +1,4 @@
 appId: com.jigglepeek.client
+productName: JigglePeek Client
 publish:
   provider: github

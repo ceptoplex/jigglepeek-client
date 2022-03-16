@@ -17,7 +17,7 @@ const showAboutWindow = async () => {
     aboutWindow = new BrowserWindow({
         width: 400,
         height: 200,
-        icon: path.join(__dirname, '..', 'assets', 'icon.ico'),
+        icon: path.join(__dirname, '..', 'build', 'icon.ico'),
         show: false,
         autoHideMenuBar: true,
         maximizable: false,
@@ -36,7 +36,7 @@ const showAboutWindow = async () => {
 };
 
 const createTray = () => {
-    const tray = new Tray(path.join(__dirname, '..', 'assets', 'icon.ico'));
+    const tray = new Tray(path.join(__dirname, '..', 'build', 'icon.ico'));
     const contextMenu = Menu.buildFromTemplate([
         {label: 'About', type: 'normal', click: () => showAboutWindow()},
         {type: 'separator'},
