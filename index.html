@@ -25,42 +25,24 @@
 
 <div class="hidden" id="notification">
     <p id="message"></p>
-    <button id="close-button" onClick="closeNotification()">Close</button>
-    <button class="hidden" id="restart-button" onClick="restartApp()">Restart</button>
+    <button onClick="notification.classList.add('hidden')">Close</button>
+    <button class="hidden" id="restart" onClick="window.electronAPI.restart()">Restart</button>
 </div>
 
 <script>
-    const {ipcRenderer} = require('electron');
-    const version = document.getElementById('version');
-
-    ipcRenderer.on('app-version', (event, arg) => {
-        ipcRenderer.removeAllListeners('app-version');
-        version.innerText = 'Version ' + arg.version;
-    });
-    ipcRenderer.send('app-version');
+    window.electronAPI.awaitVersion(version => document.getElementById('version').innerText = `Version ${version}`);
 
     const notification = document.getElementById('notification');
     const message = document.getElementById('message');
-    const restartButton = document.getElementById('restart-button');
-    ipcRenderer.on('update-available', () => {
-        ipcRenderer.removeAllListeners('update-available');
+    window.electronAPI.awaitUpdateAvailable(() => {
         message.innerText = 'A new update is available. Downloading now...';
         notification.classList.remove('hidden');
     });
-    ipcRenderer.on('update-downloaded', () => {
-        ipcRenderer.removeAllListeners('update-downloaded');
+    window.electronAPI.awaitUpdateDownloaded(() => {
         message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
-        restartButton.classList.remove('hidden');
+        document.getElementById('restart').classList.remove('hidden');
         notification.classList.remove('hidden');
     });
-
-    function closeNotification() {
-        notification.classList.add('hidden');
-    }
-
-    function restartApp() {
-        ipcRenderer.send('restart-app');
-    }
 </script>
 
 </body>

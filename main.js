@@ -1,5 +1,13 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
 const {autoUpdater} = require('electron-updater');
+const path = require('path');
+
+ipcMain.on('version', (event) => {
+    event.sender.send('version', {version: app.getVersion()});
+});
+ipcMain.on('restart', () => {
+    autoUpdater.quitAndInstall();
+});
 
 const createWindow = () => {
     const window = new BrowserWindow({
@@ -7,29 +15,20 @@ const createWindow = () => {
         height: 600,
         show: false,
         webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false
+            preload: path.join(__dirname, 'preload.js')
         }
     });
 
-    window.once('ready-to-show', () => {
+    window.on('ready-to-show', () => {
         window.show();
 
         autoUpdater.on('update-available', () => {
             window.webContents.send('update-available');
         });
         autoUpdater.on('update-downloaded', () => {
-            ipcMain.on('restart-app', () => {
-                autoUpdater.quitAndInstall();
-            });
-
             window.webContents.send('update-downloaded');
         });
         autoUpdater.checkForUpdatesAndNotify();
-    });
-
-    ipcMain.on('app-version', (event) => {
-        event.sender.send('app-version', {version: app.getVersion()});
     });
 
     window.loadFile('index.html');
