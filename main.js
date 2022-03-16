@@ -24,7 +24,10 @@ const createWindow = async () => {
     });
 
     window.on('ready-to-show', async () => {
-        const result = await autoUpdater.checkForUpdatesAndNotify();
+        const result = await autoUpdater.checkForUpdatesAndNotify({
+            title: 'JigglePeek Client Update',
+            body: 'Client has successfully been updated to the latest version.'
+        });
         if (result === null || result.updateInfo.version === app.getVersion()) {
             window.show();
         }
