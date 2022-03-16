@@ -30,19 +30,22 @@
 </div>
 
 <script>
-    window.electronAPI.awaitVersion(version => document.getElementById('version').innerText = `Version ${version}`);
+    (async () => {
+        const version = await window.electron.getVersion();
+        document.getElementById('version').innerText = `Version ${version}`;
 
-    const notification = document.getElementById('notification');
-    const message = document.getElementById('message');
-    window.electronAPI.awaitUpdateAvailable(() => {
-        message.innerText = 'A new update is available. Downloading now...';
-        notification.classList.remove('hidden');
-    });
-    window.electronAPI.awaitUpdateDownloaded(() => {
-        message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
-        document.getElementById('restart').classList.remove('hidden');
-        notification.classList.remove('hidden');
-    });
+        const notification = document.getElementById('notification');
+        const message = document.getElementById('message');
+        window.electron.awaitUpdateAvailable().then(() => {
+            message.innerText = 'A new update is available. Downloading now...';
+            notification.classList.remove('hidden');
+        });
+        window.electron.awaitUpdateDownloaded().then(() => {
+            message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+            document.getElementById('restart').classList.remove('hidden');
+            notification.classList.remove('hidden');
+        });
+    })();
 </script>
 
 </body>

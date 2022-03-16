@@ -9,7 +9,7 @@ ipcMain.on('restart', () => {
     autoUpdater.quitAndInstall();
 });
 
-const createWindow = () => {
+const createWindow = async () => {
     const window = new BrowserWindow({
         width: 800,
         height: 600,
@@ -19,27 +19,27 @@ const createWindow = () => {
         }
     });
 
-    window.on('ready-to-show', () => {
-        window.show();
-
-        autoUpdater.on('update-available', () => {
-            window.webContents.send('update-available');
-        });
-        autoUpdater.on('update-downloaded', () => {
-            window.webContents.send('update-downloaded');
-        });
-        autoUpdater.checkForUpdatesAndNotify();
+    autoUpdater.on('update-available', () => {
+        window.webContents.send('update-available');
+    });
+    autoUpdater.on('update-downloaded', () => {
+        window.webContents.send('update-downloaded');
     });
 
-    window.loadFile('index.html');
+    window.on('ready-to-show', async () => {
+        window.show();
+        await autoUpdater.checkForUpdatesAndNotify();
+    });
+
+    await window.loadFile('index.html');
 };
 
-app.on('ready', () => {
-    createWindow();
+app.on('ready', async () => {
+    await createWindow();
 });
-app.on('activate', () => {
+app.on('activate', async () => {
     if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();
+        await createWindow();
     }
 });
 app.on('window-all-closed', () => {
