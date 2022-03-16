@@ -16,20 +16,20 @@ const createWindow = () => {
         window.show();
 
         autoUpdater.on('update-available', () => {
-            window.webContents.send('update_available');
+            window.webContents.send('update-available');
         });
         autoUpdater.on('update-downloaded', () => {
-            ipcMain.on('restart_app', () => {
+            ipcMain.on('restart-app', () => {
                 autoUpdater.quitAndInstall();
             });
 
-            window.webContents.send('update_downloaded');
+            window.webContents.send('update-downloaded');
         });
         autoUpdater.checkForUpdatesAndNotify();
     });
 
-    ipcMain.on('app_version', (event) => {
-        event.sender.send('app_version', {version: app.getVersion()});
+    ipcMain.on('app-version', (event) => {
+        event.sender.send('app-version', {version: app.getVersion()});
     });
 
     window.loadFile('index.html');
