@@ -13,6 +13,7 @@
             background-color: white;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         }
+
         .hidden {
             display: none;
         }
@@ -22,10 +23,10 @@
 
 <p id="version"></p>
 
-<div id="notification" class="hidden">
+<div class="hidden" id="notification">
     <p id="message"></p>
     <button id="close-button" onClick="closeNotification()">Close</button>
-    <button id="restart-button" onClick="restartApp()" class="hidden">Restart</button>
+    <button class="hidden" id="restart-button" onClick="restartApp()">Restart</button>
 </div>
 
 <script>
