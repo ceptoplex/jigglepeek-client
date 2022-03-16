@@ -1,6 +1,6 @@
 {
   "name": "jigglepeek-client",
-  "description": "JigglePeek Windows Client",
+  "description": "JigglePeek Client",
   "author": "ceptoplex",
   "version": "0.1.7",
   "main": "main.js",
