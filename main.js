@@ -1,10 +1,6 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
 const {autoUpdater} = require('electron-updater');
 
-if (require('electron-squirrel-startup')) {
-    return app.quit();
-}
-
 const createWindow = () => {
     const window = new BrowserWindow({
         width: 800,
