@@ -19,16 +19,15 @@ const createWindow = async () => {
         }
     });
 
-    autoUpdater.on('update-available', () => {
-        window.webContents.send('update-available');
-    });
     autoUpdater.on('update-downloaded', () => {
-        window.webContents.send('update-downloaded');
+        autoUpdater.quitAndInstall();
     });
 
     window.on('ready-to-show', async () => {
-        window.show();
-        await autoUpdater.checkForUpdatesAndNotify();
+        const result = await autoUpdater.checkForUpdatesAndNotify();
+        if (result === null || result.updateInfo.version === app.getVersion()) {
+            window.show();
+        }
     });
 
     await window.loadFile('index.html');

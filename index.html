@@ -2,49 +2,15 @@
 <html>
 <head>
     <title>JigglePeek Windows Client</title>
-    <style>
-        #notification {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 200px;
-            padding: 20px;
-            border-radius: 5px;
-            background-color: white;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
 </head>
 <body>
 
 <p id="version"></p>
 
-<div class="hidden" id="notification">
-    <p id="message"></p>
-    <button onClick="notification.classList.add('hidden')">Close</button>
-    <button class="hidden" id="restart" onClick="window.electronAPI.restart()">Restart</button>
-</div>
-
 <script>
     (async () => {
         const version = await window.electron.getVersion();
         document.getElementById('version').innerText = `Version ${version}`;
-
-        const notification = document.getElementById('notification');
-        const message = document.getElementById('message');
-        window.electron.awaitUpdateAvailable().then(() => {
-            message.innerText = 'A new update is available. Downloading now...';
-            notification.classList.remove('hidden');
-        });
-        window.electron.awaitUpdateDownloaded().then(() => {
-            message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
-            document.getElementById('restart').classList.remove('hidden');
-            notification.classList.remove('hidden');
-        });
     })();
 </script>
 

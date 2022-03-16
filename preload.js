@@ -8,20 +8,5 @@ contextBridge.exposeInMainWorld('electron', {
                 callback(null, args.version);
             });
             ipcRenderer.send('version');
-        }),
-    awaitUpdateAvailable: util.promisify(
-        callback => {
-            ipcRenderer.once('update-available', () => {
-                callback();
-            });
-        }),
-    awaitUpdateDownloaded: util.promisify(
-        callback => {
-            ipcRenderer.once('update-downloaded', () => {
-                callback();
-            });
-        }),
-    restart: () => {
-        ipcRenderer.send('restart');
-    }
+        })
 });
