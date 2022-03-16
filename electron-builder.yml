@@ -1,4 +1,7 @@
 appId: com.jigglepeek.client
 productName: JigglePeek Client
+files:
+  - "!.github"
+icon: public/icon.ico
 publish:
   provider: github

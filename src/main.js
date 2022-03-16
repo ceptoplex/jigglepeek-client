@@ -17,7 +17,7 @@ const showAboutWindow = async () => {
     aboutWindow = new BrowserWindow({
         width: 400,
         height: 200,
-        icon: path.join(__dirname, '..', 'build', 'icon.ico'),
+        icon: path.join(__dirname, '..', 'public', 'icon.ico'),
         show: false,
         autoHideMenuBar: true,
         maximizable: false,
@@ -36,7 +36,7 @@ const showAboutWindow = async () => {
 };
 
 const createTray = () => {
-    const tray = new Tray(path.join(__dirname, '..', 'build', 'icon.ico'));
+    const tray = new Tray(path.join(__dirname, '..', 'public', 'icon.ico'));
     const contextMenu = Menu.buildFromTemplate([
         {label: 'About', type: 'normal', click: () => showAboutWindow()},
         {type: 'separator'},
@@ -53,7 +53,7 @@ autoUpdater.on('update-downloaded', () => {
 app.on('ready', async () => {
     const result = await autoUpdater.checkForUpdatesAndNotify({
         title: 'JigglePeek Client Update',
-        body: 'Client has successfully been updated to the latest about.'
+        body: 'A new version is available. The client will be updated automatically.'
     });
     if (result === null || result.updateInfo.version === app.getVersion()) {
         createTray();
