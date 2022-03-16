@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JigglePeek Client - About</title>
+</head>
+<style>
+    html {
+        text-align: center;
+    }
+</style>
+<body>
+
+<h1>JigglePeek Client</h1>
+<p>
+    <span>Version:</span>
+    <span id="version"></span>
+</p>
+
+<script>
+    (async () => {
+        document.getElementById('version').innerText = await window.electron.getVersion();
+    })();
+</script>
+
+</body>
+</html>

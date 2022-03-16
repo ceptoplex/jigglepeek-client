@@ -3,7 +3,7 @@
   "description": "JigglePeek Client",
   "author": "ceptoplex",
   "version": "0.2.0",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder build --win --publish never",
